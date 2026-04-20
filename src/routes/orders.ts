@@ -33,6 +33,8 @@ router.get("/user/:userId", (req: Request, res: Response) => {
 
 router.patch("/:id/status", (req: Request, res: Response) => {
   const { status } = req.body;
+  const validStatuses = ["pending", "confirmed", "shipped", "delivered", "cancelled"];
+  if (!status || !validStatuses.includes(status)) { res.status(400).json({ success: false, error: "Invalid status" }); return; }
   const updated = updateOrderStatus(req.params.id, status);
   if (!updated) {
     res.status(404).json({ success: false, error: "Order not found" });
