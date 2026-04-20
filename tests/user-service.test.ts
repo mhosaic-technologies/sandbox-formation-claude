@@ -28,8 +28,8 @@ describe("getUserProfile", () => {
     expect(profile.daysSinceCreation).toBeGreaterThan(0);
   });
 
-  it("should handle non-existent user gracefully", () => {
-    expect(() => getUserProfile("nonexistent")).not.toThrow();
+  it("should throw for non-existent user", () => {
+    expect(() => getUserProfile("nonexistent")).toThrow("User not found");
   });
 });
 

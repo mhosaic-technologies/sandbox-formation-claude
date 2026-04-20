@@ -20,12 +20,6 @@ export function getAllUsers(): User[] {
   return Array.from(users.values());
 }
 
-/**
- * BUG #2 — Null pointer (Kata: Bug Hunt #2)
- *
- * This function does not check if the user exists before
- * accessing properties, causing a crash on unknown IDs.
- */
 export function getUserProfile(userId: string): {
   name: string;
   email: string;
@@ -34,15 +28,18 @@ export function getUserProfile(userId: string): {
 } {
   const user = users.get(userId);
 
-  // BUG: no null check — crashes when userId doesn't exist
+  if (!user) {
+    throw new Error("User not found");
+  }
+
   const now = new Date();
-  const diffMs = now.getTime() - user!.createdAt.getTime();
+  const diffMs = now.getTime() - user.createdAt.getTime();
   const daysSinceCreation = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
   return {
-    name: user!.name,
-    email: user!.email,
-    role: user!.role,
+    name: user.name,
+    email: user.email,
+    role: user.role,
     daysSinceCreation,
   };
 }

@@ -1,12 +1,5 @@
 import { PaginatedResult } from "../types";
 
-/**
- * BUG #1 — Off-by-one (Kata: Bug Hunt #1)
- *
- * This function has an off-by-one error in the pagination logic.
- * When requesting the last page, it may return one extra item
- * or skip the last item entirely.
- */
 export function paginate<T>(
   items: T[],
   page: number,
@@ -16,8 +9,7 @@ export function paginate<T>(
   const totalPages = Math.ceil(total / pageSize);
   const safePage = Math.max(1, Math.min(page, totalPages));
 
-  // BUG: off-by-one — should be (safePage - 1) * pageSize
-  const startIndex = safePage * pageSize;
+  const startIndex = (safePage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
 
   const data = items.slice(startIndex, endIndex);
