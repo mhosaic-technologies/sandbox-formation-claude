@@ -45,3 +45,8 @@ export interface ApiResponse<T> {
   data?: T;
   error?: string;
 }
+
+export type NotificationChannel = "push" | "email" | "in_app";
+export type NotificationStatus = "pending" | "sent" | "failed" | "read";
+export interface Notification { id: string; userId: string; channel: NotificationChannel; title: string; body: string; data?: Record<string, unknown>; status: NotificationStatus; createdAt: Date; sentAt?: Date; readAt?: Date; }
+export interface CreateNotificationInput { channel: NotificationChannel; title: string; body: string; data?: Record<string, unknown>; }
